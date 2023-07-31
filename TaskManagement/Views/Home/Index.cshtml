@@ -1,0 +1,84 @@
+﻿@model TaskManagement.Models.TaskViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-8">Task Management</h1>  
+</div>
+
+<div class="container">
+    <h3>Task List</h3>
+    <div class="row">
+        <div class="col">
+            <div class="bg-white rounded shadow grid-div">
+                <table class="table table-striped table-bordered" id="TaskTable">
+            <thead>
+            <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding-top:30px">
+</div>
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm("SubmitTask", "Home", FormMethod.Post, new { id="frmTask",@class = "form-horizontal" }))
+        {
+            <div class="row mb-3">
+                @Html.LabelFor(m=>m.Name,"Task Name: ",htmlAttributes: new{@class="col-sm-3 col-form-label"})
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(m=>m.Name,htmlAttributes: new {id="txtTaskName",@class="form-control"})
+                    @Html.ValidationMessageFor(m=>m.Name,"",htmlAttributes: new {@class="alert-danger"})
+                </div>
+             </div>
+
+            <div class="row mb-3">
+                @Html.LabelFor(m=>m.Priority,"Priority: ",htmlAttributes: new{@class="col-sm-3 col-form-label"})
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(m=>m.Priority,htmlAttributes: new {id="txtPriority",@class="form-control",type="number"})
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                @Html.LabelFor(m=>m.Status,"Status: ",htmlAttributes: new{@class="col-sm-3 col-form-label"})
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(m=>m.Status,Model.StatusList,"--Select an Item--",htmlAttributes: new {id="ddlStatus",@class="form-control"})
+                    @Html.ValidationMessageFor(m=>m.Status,"",htmlAttributes: new {@class="alert-danger"})
+                </div>
+            </div>
+            <div class="row mb-3">
+                @Html.HiddenFor(m=>m.TaskId,htmlAttributes: new{id="hdnTaskId",type="hidden"})
+            </div>
+          
+            <div class="row mb-3">
+                <div class="col-sm-2"style="text-align:right">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-sm-2">
+                    <button id="btnClear" onclick="ClearAll();return false;" class="btn btn-primary">Clear</button>
+                </div>
+            </div>
+
+            <div class="alert-success" id="divSucess">
+                @ViewBag.SucessMessage
+            </div>
+            <div class="alert-danger" id="divFailure">
+                @ViewBag.FailureMessage
+            </div>
+        }
+    </div>
+</div>
